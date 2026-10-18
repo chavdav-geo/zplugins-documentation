@@ -1,0 +1,7 @@
+[
+  { "slug": "installation", "title": "Installation" },
+  { "slug": "nextjs-app", "title": "Next.js App Router" },
+  { "slug": "nextjs-pages", "title": "Next.js Pages Router" },
+  { "slug": "react-router", "title": "React Router" },
+  { "slug": "tanstack-start", "title": "TanStack Start" }
+]
