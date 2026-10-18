@@ -1,59 +1,97 @@
+import type { ReactNode } from "react"
 import Link from "next/link"
-import { Box, Trophy, ArrowRight, Mail, ExternalLink, Flame, Shield, Layers, Sparkles, MessageSquare } from "lucide-react"
+import { CodeBlock, CopyButton } from "@ariadocs/components"
 import { BuiltByBitIcon, DiscordIcon } from "@/components/icons"
 import { Logo } from "@/components/logo"
 import { SearchButton } from "@/components/search"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { site } from "@/lib/site"
 
+const zvoidchestConfigExample = `# plugins/zVoidChests/config.yml
+general:
+  prefix: "&#00E5FF&l[zVoidChests] &r"
+  language: "es_ES"
+  shop-plugin: "economyshopgui" # o "shopgui+"
+  auto-save-interval: 300
+  default-max-chests: 5
+
+fuel:
+  enabled: true
+  initial-free-hours: 2
+  cost-per-hour: 1000.0
+
+auto-sell:
+  interval: 5
+  sell-particles: true
+
+collector:
+  instant-collection: true
+  vacuum-particles: true`
+
+const ajlbHologramExample = `# plugins/FancyHolograms/holograms.yml
+top_kills:
+  location:
+    world: world
+    x: 100.5
+    y: 72.0
+    z: -45.5
+  text:
+    - "<gradient:#FF007A:#7928CA><bold>⚔️ TOP ASESINATOS ⚔️</bold></gradient>"
+    - "<gray>Actualizado en tiempo real</gray>"
+    - ""
+    - "<gold>#1</gold> <yellow>%ajlb_lb_statistic_player_kills_1_alltime_name%</yellow> - <green>%ajlb_lb_statistic_player_kills_1_alltime_value% Kills</green>"
+    - "<gray>#2</gray> <white>%ajlb_lb_statistic_player_kills_2_alltime_name%</white> - <green>%ajlb_lb_statistic_player_kills_2_alltime_value% Kills</green>"
+    - "<red>#3</red> <white>%ajlb_lb_statistic_player_kills_3_alltime_name%</white> - <green>%ajlb_lb_statistic_player_kills_3_alltime_value% Kills</green>"`
+
+const docsLinks = [
+  { name: "zVoidChest - Visión General", href: "/docs/zvoidchest" },
+  { name: "Comandos & Permisos", href: "/docs/zvoidchest/commands-and-permissions" },
+  { name: "ajLeaderboards - Configuración", href: "/docs/ajleaderboards" },
+  { name: "Hologramas & Placeholders", href: "/docs/ajleaderboards/holograms" },
+]
+
 export default function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
-      {/* Header */}
-      <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-6">
-          <div className="flex items-center gap-8">
-            <Link href="/" aria-label={`${site.name} home`} className="flex items-center">
-              <Logo />
+    <>
+      <header className="bg-background/80 sticky top-0 z-40 border-b backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-6xl items-center gap-8 px-5 sm:px-6">
+          <Link href="/" aria-label={`${site.name} home`} className="flex text-[17px]">
+            <Logo />
+          </Link>
+          <nav className="text-muted-foreground hidden items-center gap-6 text-sm md:flex">
+            <Link href="/docs" className="hover:text-foreground transition-colors">
+              Docs
             </Link>
-            <nav className="hidden items-center gap-6 text-sm font-medium text-muted-foreground md:flex">
-              <Link href="/docs" className="transition-colors hover:text-foreground">
-                Documentación
-              </Link>
-              <Link href="/docs/zvoidchest" className="transition-colors hover:text-foreground">
-                zVoidChest
-              </Link>
-              <Link href="/docs/ajleaderboards" className="transition-colors hover:text-foreground">
-                ajLeaderboards
-              </Link>
-              <a
-                href={site.builtbybit}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 transition-colors hover:text-foreground"
-              >
-                <BuiltByBitIcon className="size-4" />
-                <span>BuiltByBit</span>
-              </a>
-              <a
-                href={site.discord}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 transition-colors hover:text-foreground"
-              >
-                <DiscordIcon className="size-4" />
-                <span>Discord</span>
-              </a>
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-2.5">
-            <SearchButton className="hidden w-48 sm:flex" />
+            <Link href="/docs/zvoidchest" className="hover:text-foreground transition-colors">
+              zVoidChest
+            </Link>
+            <Link href="/docs/ajleaderboards" className="hover:text-foreground transition-colors">
+              ajLeaderboards
+            </Link>
+            <a
+              href={site.builtbybit}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              BuiltByBit
+            </a>
+            <a
+              href={site.discord}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              Discord
+            </a>
+          </nav>
+          <div className="ml-auto flex items-center gap-2">
+            <SearchButton className="hidden w-52 sm:flex" />
             <SearchButton compact className="sm:hidden" />
             <ThemeToggle className="hidden sm:flex" />
             <Link
               href="/docs"
-              className="inline-flex h-9 items-center rounded-lg bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-90"
+              className="bg-foreground text-background inline-flex h-9 items-center rounded-lg px-3.5 text-sm font-medium transition-opacity hover:opacity-90"
             >
               Comenzar
             </Link>
@@ -61,231 +99,192 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <main className="flex-1">
-        <section className="relative overflow-hidden border-b py-20 sm:py-28">
+      <main>
+        <section className="relative overflow-hidden border-b">
           <div
             aria-hidden
-            className="absolute inset-0 [background-image:linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_10%,black,transparent)] opacity-40"
+            className="absolute inset-0 [background-image:linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)]"
           />
-          <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-6">
-            <div className="inline-flex items-center gap-2 rounded-full border bg-muted/50 px-3.5 py-1 text-xs font-medium text-muted-foreground backdrop-blur mb-6">
-              <Sparkles className="size-3.5 text-primary" />
-              <span>Plugins y Configuraciones Profesionales para Minecraft</span>
-            </div>
-
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl sm:leading-[1.1]">
-              Documentación Oficial de <span className="text-primary">zPlugins</span>
+          <div className="relative mx-auto max-w-4xl px-5 pt-24 pb-24 text-center sm:pt-32 sm:pb-28">
+            <h1 className="text-[2.75rem] leading-[1.05] font-semibold tracking-[-0.04em] text-balance sm:text-7xl">
+              Documentación oficial de zPlugins
             </h1>
-
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-              Guías completas de instalación, configuración avanzada, rendimiento y mecánicas para servidores de Minecraft. Soporte directo, recursos y optimización para tu red.
+            <p className="text-muted-foreground mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-balance sm:text-xl">
+              Plugins y configuraciones profesionales para servidores de Minecraft. Alto rendimiento, guías de instalación paso a paso y optimización.
             </p>
-
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/docs"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-foreground px-6 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+                className="bg-foreground text-nowrap text-background inline-flex h-11 w-full items-center justify-center rounded-lg px-6 text-[15px] font-medium transition-opacity hover:opacity-90 sm:w-auto"
               >
-                <span>Explorar Documentación</span>
-                <ArrowRight className="size-4" />
+                Ver Documentación
               </Link>
               <a
                 href={site.builtbybit}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border bg-background px-5 text-sm font-medium transition-colors hover:bg-muted"
+                className="bg-background text-nowrap hover:bg-muted inline-flex h-11 w-full items-center justify-center rounded-lg border px-6 text-[15px] font-medium transition-colors sm:w-auto"
               >
-                <BuiltByBitIcon className="size-4" />
-                <span>Tienda en BuiltByBit</span>
-                <ExternalLink className="size-3.5 text-muted-foreground" />
+                Tienda BuiltByBit
               </a>
-              <a
-                href={site.discord}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border bg-background px-5 text-sm font-medium transition-colors hover:bg-muted"
-              >
-                <DiscordIcon className="size-4" />
-                <span>Comunidad en Discord</span>
-                <ExternalLink className="size-3.5 text-muted-foreground" />
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* Featured Documentation Cards */}
-        <section className="border-b py-16 sm:py-24">
-          <div className="mx-auto max-w-6xl px-5 sm:px-6">
-            <div className="mb-12 text-center sm:text-left">
-              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                Nuestros Recursos & Documentación
-              </h2>
-              <p className="mt-2 text-muted-foreground">
-                Selecciona una de las secciones para acceder a guías detalladas, archivos y configuraciones.
-              </p>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {/* zVoidChest Card */}
-              <div className="group relative flex flex-col justify-between rounded-2xl border bg-card p-7 transition-all hover:border-primary/50 hover:shadow-lg">
-                <div>
-                  <div className="mb-5 inline-flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <Box className="size-6" />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="rounded-md bg-primary/15 px-2 py-0.5 text-xs font-semibold text-primary">
-                      Plugin
-                    </span>
-                    <span className="text-xs text-muted-foreground">Minecraft 1.18 - 1.21+</span>
-                  </div>
-                  <h3 className="mt-3 text-2xl font-bold tracking-tight">zVoidChest</h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                    La solución definitiva de VoidChest y Chunk Collector para SkyBlock, Survival y Factions. Cuenta con Auto-Sell (ShopGUI+ y EconomyShopGUI), Auto-Smelt, Auto-Compress, sistema de gasolina, enlaces a tolvas, hologramas nativos 1.21+ (TextDisplay) y soporte SQLite/MySQL.
-                  </p>
-
-                  <div className="mt-6 flex flex-wrap gap-2 text-xs font-medium text-muted-foreground">
-                    <span className="rounded-md border bg-muted/40 px-2.5 py-1">Auto-Sell</span>
-                    <span className="rounded-md border bg-muted/40 px-2.5 py-1">Chunk Collector</span>
-                    <span className="rounded-md border bg-muted/40 px-2.5 py-1">Fuel System</span>
-                    <span className="rounded-md border bg-muted/40 px-2.5 py-1">Hologramas 3D</span>
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-5 border-t">
-                  <Link
-                    href="/docs/zvoidchest"
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-colors hover:underline"
-                  >
-                    <span>Ver documentación de zVoidChest</span>
-                    <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </div>
-              </div>
-
-              {/* ajLeaderboards Card */}
-              <div className="group relative flex flex-col justify-between rounded-2xl border bg-card p-7 transition-all hover:border-primary/50 hover:shadow-lg">
-                <div>
-                  <div className="mb-5 inline-flex size-12 items-center justify-center rounded-xl bg-amber-500/10 text-amber-500">
-                    <Trophy className="size-6" />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="rounded-md bg-amber-500/15 px-2 py-0.5 text-xs font-semibold text-amber-500">
-                      Configuración & Guía
-                    </span>
-                    <span className="text-xs text-muted-foreground">PlaceholderAPI & Hologramas</span>
-                  </div>
-                  <h3 className="mt-3 text-2xl font-bold tracking-tight">ajLeaderboards Config</h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                    Guía técnica y optimización completa para ajLeaderboards. Configuración detallada de actualización de estadísticas (`stat-refresh`), permisos de no actualización, integración con hologramas (FancyHolograms, DecentHolograms), placeholders comunes y bases de datos.
-                  </p>
-
-                  <div className="mt-6 flex flex-wrap gap-2 text-xs font-medium text-muted-foreground">
-                    <span className="rounded-md border bg-muted/40 px-2.5 py-1">Tops Diarios / Semanales</span>
-                    <span className="rounded-md border bg-muted/40 px-2.5 py-1">FancyHolograms</span>
-                    <span className="rounded-md border bg-muted/40 px-2.5 py-1">Anti-Lag Tuning</span>
-                    <span className="rounded-md border bg-muted/40 px-2.5 py-1">Placeholders</span>
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-5 border-t">
-                  <Link
-                    href="/docs/ajleaderboards"
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-colors hover:underline"
-                  >
-                    <span>Ver configuración de ajLeaderboards</span>
-                    <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </div>
+              <div className="bg-background text-nowrap text-muted-foreground flex h-11 w-full items-center gap-2 rounded-lg border pr-1 pl-4 font-mono text-[13px] sm:w-auto">
+                <span className="select-none" aria-hidden>
+                  ~
+                </span>
+                <span className="text-foreground min-w-0 flex-1 truncate text-left">
+                  /vc give &lt;player&gt; 1 1
+                </span>
+                <CopyButton value="/vc give {player} 1 1" />
               </div>
             </div>
           </div>
         </section>
 
-        {/* Contact & Support Section */}
-        <section className="border-b py-16 sm:py-20 bg-muted/30">
-          <div className="mx-auto max-w-6xl px-5 sm:px-6">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                Soporte y Contacto
-              </h2>
-              <p className="mt-2 text-muted-foreground">
-                ¿Necesitas asistencia técnica o una configuración personalizada para tu servidor? Estamos a tu disposición.
-              </p>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
-              {/* Tech Support */}
-              <div className="rounded-xl border bg-background p-6 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="flex size-10 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
-                    <Mail className="size-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base">Soporte Técnico</h3>
-                    <p className="text-xs text-muted-foreground">Para dudas, bugs o asistencia con plugins</p>
-                  </div>
-                </div>
-                <div className="mt-5 rounded-lg border bg-muted/40 p-3.5">
-                  <span className="text-xs text-muted-foreground block mb-1">Correo de soporte:</span>
-                  <a
-                    href={`mailto:${site.supportEmail}`}
-                    className="font-mono text-sm font-medium text-foreground hover:underline"
-                  >
-                    {site.supportEmail}
-                  </a>
-                </div>
-                <p className="mt-4 text-xs text-muted-foreground">
-                  También puedes abrir un ticket de soporte directamente en nuestro servidor de Discord.
-                </p>
+        <Showcase
+          label="zVoidChest"
+          title="VoidChest & Chunk Collector Inteligente"
+          text="Auto-Sell automático integrado con ShopGUI+ o precios internos. Soporta fundición y compresión de minerales, combustible por horas y hologramas nativos TextDisplay."
+          href="/docs/zvoidchest"
+          source={
+            <CodeBlock
+              code={zvoidchestConfigExample}
+              language="yaml"
+              title="plugins/zVoidChests/config.yml"
+              className="rounded-none border-0"
+            />
+          }
+          result={
+            <div className="p-6 sm:p-8 space-y-4">
+              <div className="flex items-center justify-between border-b pb-3">
+                <div className="font-semibold text-base sm:text-lg">⚡ Tier III VoidChest (ÉPICO)</div>
+                <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-500">Activo</span>
               </div>
-
-              {/* Custom Configs & Business */}
-              <div className="rounded-xl border bg-background p-6 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="flex size-10 items-center justify-center rounded-lg bg-purple-500/10 text-purple-500">
-                    <Mail className="size-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base">Negocios & Configuraciones</h3>
-                    <p className="text-xs text-muted-foreground">Proyectos personalizados y alianzas</p>
-                  </div>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-lg border p-3 bg-muted/30">
+                  <div className="text-muted-foreground text-xs">Multiplicador</div>
+                  <div className="text-lg font-bold">1.5x</div>
                 </div>
-                <div className="mt-5 rounded-lg border bg-muted/40 p-3.5">
-                  <span className="text-xs text-muted-foreground block mb-1">Correo de contacto comercial:</span>
-                  <a
-                    href={`mailto:${site.contactEmail}`}
-                    className="font-mono text-sm font-medium text-foreground hover:underline"
-                  >
-                    {site.contactEmail}
-                  </a>
+                <div className="rounded-lg border p-3 bg-muted/30">
+                  <div className="text-muted-foreground text-xs">Radio</div>
+                  <div className="text-lg font-bold">3x3 Chunks</div>
                 </div>
-                <p className="mt-4 text-xs text-muted-foreground">
-                  Configuraciones a medida, setups completos y desarrollo exclusivo para comunidades.
-                </p>
+                <div className="rounded-lg border p-3 bg-muted/30">
+                  <div className="text-muted-foreground text-xs">Auto-Smelt</div>
+                  <div className="text-lg font-bold text-emerald-500">Habilitado</div>
+                </div>
+                <div className="rounded-lg border p-3 bg-muted/30">
+                  <div className="text-muted-foreground text-xs">Auto-Compress</div>
+                  <div className="text-lg font-bold text-emerald-500">Habilitado</div>
+                </div>
+              </div>
+              <div className="rounded-lg border p-3 text-xs text-muted-foreground bg-muted/20">
+                ⛽ Gasolina restante: <span className="text-foreground font-medium">14 horas 32 min</span>
               </div>
             </div>
+          }
+        />
+
+        <Showcase
+          label="ajLeaderboards"
+          title="Tops Flotantes con Hologramas 3D"
+          text="Conecta tus tablas de clasificación con FancyHolograms y PlaceholderAPI. Muestra rankings en tiempo real de asesinatos, balance de dinero y tiempo jugado con cero lag."
+          href="/docs/ajleaderboards"
+          source={
+            <CodeBlock
+              code={ajlbHologramExample}
+              language="yaml"
+              title="plugins/FancyHolograms/holograms.yml"
+              className="rounded-none border-0"
+            />
+          }
+          result={
+            <div className="p-6 sm:p-8 flex flex-col items-center justify-center text-center space-y-2">
+              <div className="text-lg font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
+                ⚔️ TOP ASESINATOS ⚔️
+              </div>
+              <div className="text-xs text-muted-foreground mb-2">Actualizado en tiempo real</div>
+              <div className="w-full max-w-xs space-y-1.5 text-sm font-mono">
+                <div className="flex justify-between rounded border bg-muted/30 px-3 py-1.5">
+                  <span className="text-amber-400 font-bold">#1 ChavDav</span>
+                  <span className="text-emerald-500 font-semibold">1,420 Kills</span>
+                </div>
+                <div className="flex justify-between rounded border bg-muted/30 px-3 py-1.5">
+                  <span className="text-slate-300 font-bold">#2 AlexGamer</span>
+                  <span className="text-emerald-500 font-semibold">982 Kills</span>
+                </div>
+                <div className="flex justify-between rounded border bg-muted/30 px-3 py-1.5">
+                  <span className="text-amber-600 font-bold">#3 ProPlayer</span>
+                  <span className="text-emerald-500 font-semibold">745 Kills</span>
+                </div>
+              </div>
+              <div className="text-xs text-cyan-400 pt-2 font-mono">
+                Tu posición: #12 (412 Kills)
+              </div>
+            </div>
+          }
+        />
+
+        <section className="mx-auto max-w-6xl px-5 py-20 sm:px-6">
+          <h2 className="text-2xl font-semibold tracking-tight">
+            Explora las secciones de documentación
+          </h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {docsLinks.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="hover:bg-muted/50 flex items-center justify-between rounded-xl border px-4 py-3.5 text-sm font-medium transition-colors"
+              >
+                {item.name}
+                <span className="text-muted-foreground" aria-hidden>
+                  →
+                </span>
+              </Link>
+            ))}
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t bg-background">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-5 py-8 sm:flex-row sm:px-6">
-          <div className="flex items-center gap-3">
+      <footer className="border-t">
+        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 text-sm sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
+          <div>
             <Logo />
-            <span className="text-xs text-muted-foreground">
-              © {new Date().getFullYear()} zPlugins. Todos los derechos reservados.
-            </span>
+            <p className="text-muted-foreground mt-2">
+              zPlugins © {new Date().getFullYear()} · ChavDav
+            </p>
           </div>
-
-          <div className="flex items-center gap-4">
+          <FooterColumn
+            title="Documentación"
+            links={[
+              { label: "Introducción", href: "/docs" },
+              { label: "zVoidChest", href: "/docs/zvoidchest" },
+              { label: "ajLeaderboards", href: "/docs/ajleaderboards" },
+              { label: "Preguntas Frecuentes", href: "/docs/zvoidchest/faq" },
+            ]}
+          />
+          <FooterColumn
+            title="Contacto & Soporte"
+            links={[
+              { label: `Soporte: ${site.supportEmail}`, href: `mailto:${site.supportEmail}` },
+              { label: `Negocios: ${site.contactEmail}`, href: `mailto:${site.contactEmail}` },
+            ]}
+          />
+          <FooterColumn
+            title="Comunidad & Enlaces"
+            links={[
+              { label: "BuiltByBit", href: site.builtbybit },
+              { label: "Discord", href: site.discord },
+            ]}
+          />
+        </div>
+        <div className="mx-auto flex max-w-6xl items-center justify-between border-t px-5 py-6 sm:px-6">
+          <div className="flex items-center gap-2">
             <a
               href={site.builtbybit}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="BuiltByBit"
-              className="inline-flex size-9 items-center justify-center rounded-md border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground inline-flex size-8 items-center justify-center transition-colors"
             >
               <BuiltByBitIcon className="size-4" />
             </a>
@@ -294,14 +293,104 @@ export default function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Discord"
-              className="inline-flex size-9 items-center justify-center rounded-md border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground inline-flex size-8 items-center justify-center transition-colors"
             >
               <DiscordIcon className="size-4" />
             </a>
-            <ThemeToggle />
           </div>
+          <ThemeToggle />
         </div>
       </footer>
+    </>
+  )
+}
+
+/** A feature shown as real input next to the real output it produces. */
+function Showcase({
+  label,
+  title,
+  text,
+  href,
+  source,
+  result,
+}: {
+  label: string
+  title: string
+  text: string
+  href: string
+  source: ReactNode
+  result: ReactNode
+}) {
+  return (
+    <section className="border-b">
+      <div className="mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-24">
+        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
+          <div className="max-w-xl">
+            <p className="text-muted-foreground font-mono text-sm">{label}</p>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+              {title}
+            </h2>
+            <p className="text-muted-foreground mt-3 text-lg leading-relaxed">
+              {text}
+            </p>
+          </div>
+          <Link
+            href={href}
+            className="text-sm font-medium underline-offset-4 hover:underline"
+          >
+            Ver documentación →
+          </Link>
+        </div>
+
+        <div className="mt-10 grid grid-cols-[minmax(0,1fr)] overflow-hidden rounded-2xl border lg:grid-cols-2">
+          <div className="bg-[var(--aria-code-background)] min-w-0 border-b lg:border-r lg:border-b-0">
+            {source}
+          </div>
+          <div className="bg-background min-w-0">
+            <p className="text-muted-foreground border-b px-6 py-2.5 text-xs sm:px-8">
+              Resultado
+            </p>
+            {result}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string
+  links: { label: string; href: string }[]
+}) {
+  return (
+    <div>
+      <p className="font-medium">{title}</p>
+      <ul className="mt-3 space-y-2">
+        {links.map((link) => (
+          <li key={link.label}>
+            {link.href.startsWith("http") || link.href.startsWith("mailto:") ? (
+              <a
+                href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                href={link.href}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </Link>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
