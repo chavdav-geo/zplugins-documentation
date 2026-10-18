@@ -2,6 +2,10 @@ import { fileURLToPath } from "node:url"
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "export",
+  images: {
+    unoptimized: true,
+  },
   transpilePackages: ["@workspace/ui"],
   turbopack: {
     root: fileURLToPath(new URL("../../", import.meta.url)),
