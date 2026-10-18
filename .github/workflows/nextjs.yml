@@ -33,6 +33,7 @@ jobs:
           cache: "pnpm"
 
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v5
         with:
           static_site_generator: next
@@ -42,6 +43,11 @@ jobs:
 
       - name: Build monorepo and export Next.js
         run: pnpm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path || '/zplugins-documentation' }}
+
+      - name: Disable Jekyll for GitHub Pages
+        run: touch ./apps/web/out/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
