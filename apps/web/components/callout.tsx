@@ -1,9 +1,11 @@
 import type { ReactNode } from "react"
+import Link from "next/link"
 import { AlertTriangle, Info, Lightbulb, ShieldAlert } from "lucide-react"
 import { cn } from "@ariadocs/components"
 
 const STYLES = {
   info: { icon: Info, className: "border-blue-500/30 bg-blue-500/5 [&_svg]:text-blue-500" },
+  note: { icon: Info, className: "border-blue-500/30 bg-blue-500/5 [&_svg]:text-blue-500" },
   tip: { icon: Lightbulb, className: "border-emerald-500/30 bg-emerald-500/5 [&_svg]:text-emerald-500" },
   warning: { icon: AlertTriangle, className: "border-amber-500/30 bg-amber-500/5 [&_svg]:text-amber-500" },
   danger: { icon: ShieldAlert, className: "border-red-500/30 bg-red-500/5 [&_svg]:text-red-500" },
@@ -14,11 +16,13 @@ export function Callout({
   title,
   children,
 }: {
-  type?: keyof typeof STYLES
+  type?: string
   title?: string
   children?: ReactNode
 }) {
-  const { icon: Icon, className } = STYLES[type]
+  const currentStyle = (type && type in STYLES ? STYLES[type as keyof typeof STYLES] : STYLES.info) || STYLES.info
+  const { icon: Icon, className } = currentStyle
+
   return (
     <div className={cn("not-prose my-6 flex gap-3 rounded-xl border p-4 text-sm", className)}>
       <Icon className="mt-0.5 size-4 shrink-0" />
@@ -34,14 +38,28 @@ export function Cards({ children }: { children?: ReactNode }) {
   return <div className="not-prose my-6 grid gap-3 sm:grid-cols-2">{children}</div>
 }
 
-export function Card({ title, href, children }: { title: string; href: string; children?: ReactNode }) {
+export function Card({
+  title,
+  href,
+  description,
+  children,
+}: {
+  title: string
+  href: string
+  description?: string
+  children?: ReactNode
+}) {
   return (
-    <a
+    <Link
       href={href}
       className="hover:bg-muted/50 block rounded-xl border p-4 no-underline transition-colors"
     >
       <p className="text-foreground text-sm font-medium">{title}</p>
-      {children !== undefined ? <p className="text-muted-foreground mt-1 text-sm">{children}</p> : null}
-    </a>
+      {description ? (
+        <p className="text-muted-foreground mt-1 text-sm">{description}</p>
+      ) : children !== undefined ? (
+        <p className="text-muted-foreground mt-1 text-sm">{children}</p>
+      ) : null}
+    </Link>
   )
 }
