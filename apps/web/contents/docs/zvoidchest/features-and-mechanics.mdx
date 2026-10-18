@@ -1,0 +1,78 @@
+---
+title: Características & Mecánicas
+description: Guía detallada de Auto-Sell, Chunk Collector, Gasolina, Tolvas, Hologramas 3D y Webhooks en zVoidChests.
+---
+
+**zVoidChests** incluye mecánicas avanzadas diseñadas tanto para automatizar el juego de los usuarios como para garantizar estabilidad y rendimiento al equipo administrativo.
+
+---
+
+## 🛒 1. Sistema Auto-Sell
+
+El motor de Auto-Sell procesa periódicamente el inventario del cofre, vende los ítems permitidos y deposita las ganancias directamente en el saldo de Vault del propietario.
+
+* **Intervalo de Venta:** Configurable en `config.yml` (`auto-sell.interval: 5` segundos).
+* **Partículas Visuales:** Efectos de aldeano feliz / partículas verdes al completar ventas exitosas.
+* **Fórmula de Ganancia:**
+  `Ganancia = Precio Base del Ítem × Multiplicador de Tier × Multiplicador de Sub-Mejora × Booster Global`
+
+<Callout type="note">
+  Si el cofre se queda sin combustible y el sistema de Gasolina está habilitado, las ventas automáticas se pausarán hasta que sea recargado.
+</Callout>
+
+---
+
+## 🧲 2. Smart Chunk Collector
+
+El cofre escanea los chunks cargados y absorbe automáticamente los ítems que caen al suelo:
+
+* **Modo Instantáneo:** Absorbe los ítems en cuanto tocan el suelo.
+* **Efectos de Vórtice:** Partículas que muestran el recorrido de los ítems hacia el cofre.
+* **Radios de Cobertura:**
+  * **Radio 0:** Mismo chunk del cofre (1x1).
+  * **Radio 1:** Área de **3x3 Chunks** alrededor del cofre.
+  * **Radio 2:** Área de **5x5 Chunks**.
+
+---
+
+## 🧪 3. Auto-Smelt & Auto-Compress
+
+### 🔥 Auto-Smelt (Fundición Automática)
+* Disponible a partir de **Tier 2**.
+* Funde automáticamente minerales crudos (`RAW_IRON`, `RAW_GOLD`, `RAW_COPPER`) a sus lingotes correspondientes.
+* Cocina carnes y pescados crudos.
+
+### 📦 Auto-Compress (Compresión en Bloques)
+* Disponible a partir de **Tier 3 (ÉPICO)**.
+* Comprime automáticamente 9 lingotes o gemas en su bloque correspondiente antes de vender o almacenar (ej. 9 Lingotes de Hierro ➔ 1 Bloque de Hierro).
+
+---
+
+## ⛽ 4. Sistema de Gasolina (Fuel)
+
+Evita que los cofres queden activos de forma infinita en granjas desatendidas requiriendo combustible para operar:
+
+```yaml title="config.yml"
+fuel:
+  enabled: true
+  initial-free-hours: 2 # Horas gratuitas iniciales al colocar el cofre
+  cost-per-hour: 1000.0 # Costo económico por hora adicional
+```
+
+---
+
+## 🛡️ 5. Enlace Inteligente a Tolvas (Smart Hoppers)
+
+Los jugadores pueden conectar tolvas a su VoidChest para extraer ítems filtrados a sistemas de clasificación:
+
+* **Método de Enlace:** Agáchate y haz clic derecho (`Shift + Clic Derecho`) con una tolva sobre el VoidChest.
+* **Seguridad:** Los jugadores no autorizados no pueden conectar tolvas para vaciar cofres ajenos.
+
+---
+
+## 📊 6. Hologramas Nativos 1.21+ (TextDisplay)
+
+* **Motor Dual:**
+  * En servidores `1.19.4+` y `1.21+`, utiliza entidades **TextDisplay** nativas (sin lag ni ArmorStands).
+  * En versiones `1.18` a `1.19.3`, utiliza ArmorStands optimizados.
+* **Personalización:** Soporte para colores HEX, texto flotante y modo oculto para evitar saturación visual.

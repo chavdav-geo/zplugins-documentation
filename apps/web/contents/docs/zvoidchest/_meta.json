@@ -1,0 +1,9 @@
+[
+  { "slug": "index", "title": "Visión General" },
+  { "slug": "installation", "title": "Instalación y Requisitos" },
+  { "slug": "commands-and-permissions", "title": "Comandos y Permisos" },
+  { "slug": "tiers-and-upgrades", "title": "Tiers y Mejoras" },
+  { "slug": "features-and-mechanics", "title": "Características y Mecánicas" },
+  { "slug": "configuration", "title": "Archivos y Configuración" },
+  { "slug": "faq", "title": "FAQ y Solución de Problemas" }
+]

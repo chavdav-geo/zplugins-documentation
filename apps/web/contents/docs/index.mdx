@@ -1,59 +1,41 @@
 ---
-title: Introduction
-description: Build documentation sites and API references in React.
+title: Introducción a zPlugins
+description: Centro oficial de documentación y recursos para plugins y configuraciones de Minecraft.
 ---
 
-Ariadocs turns two kinds of source into web pages: MDX files for your guides, and an OpenAPI spec for your API reference. You render both with the same set of components.
+¡Bienvenido a la documentación oficial de **zPlugins**! Aquí encontrarás guías completas, explicaciones paso a paso de configuración, listas de permisos y optimizaciones para tu servidor de Minecraft.
 
-## Packages
+## Recursos Disponibles
 
-- [`@ariadocs/mdx`](/docs/mdx) reads MDX files. You get the rendered page, its frontmatter, its table of contents, and a sidebar built from your folders.
-- [`@ariadocs/openapi`](/docs/openapi) reads an OpenAPI 3.x spec and gives you every endpoint as typed data.
-- [`@ariadocs/components`](/components) renders both. Use a component as it is, or build your own layout from its parts.
+<Cards>
+  <Card
+    title="zVoidChest"
+    href="/docs/zvoidchest"
+    description="Plugin integral de VoidChest y Chunk Collector con Auto-Sell, Auto-Smelt, Auto-Compress, sistema de combustible y hologramas 3D."
+  />
+  <Card
+    title="ajLeaderboards Config"
+    href="/docs/ajleaderboards"
+    description="Configuración técnica y guía de optimización para tablas de clasificación, integración con FancyHolograms y PlaceholderAPI."
+  />
+</Cards>
 
-You can install one package on its own. They also share a sidebar format, so one sidebar can list your guides and your endpoints together. This site works that way.
+---
 
-## Installation
+## ⚡ Características Principales de Nuestros Plugins
 
-<Install packages="@ariadocs/mdx @ariadocs/openapi @ariadocs/components" />
+* 🚀 **Alto Rendimiento:** Diseñados y testeados para servidores de alta demanda (Paper, Purpur y Spigot) minimizando el consumo de CPU y memoria.
+* 📦 **Compatibilidad Multi-Versión:** Soporte para versiones modernas de Minecraft (`1.18` hasta `1.21+`).
+* 💾 **Almacenamiento Confiable:** Soporte tanto para bases de datos locales (`SQLite` / `H2`) como remotas (`MySQL` / `MariaDB`) con guardado asíncrono.
+* 🎨 **Personalización Total:** Mensajes en múltiples idiomas, menús GUI configurables y soporte de colores HEX / MiniMessage.
 
-## Example
+---
 
-Both packages follow the same pattern: configure once, then call methods.
+## 💬 Soporte & Contacto
 
-<Tabs items={["MDX", "OpenAPI"]}>
-<Tab value="MDX">
+Si necesitas ayuda con la instalación, configuración o tienes alguna duda:
 
-```ts title="lib/docs.ts"
-import { createDocs } from "@ariadocs/mdx";
-
-export const docs = createDocs({ contentDir: "content/docs" });
-
-const { MDX, frontmatter, toc } = await docs.parse({ slug: "intro" });
-const sidebar = await docs.getNavigation();
-```
-
-</Tab>
-<Tab value="OpenAPI">
-
-```ts title="lib/openapi.ts"
-import { createOpenAPI } from "@ariadocs/openapi";
-
-export const openapi = createOpenAPI({ source: "./openapi.yaml" });
-
-const api = await openapi.parse();
-const sidebar = await openapi.getNavigation();
-```
-
-</Tab>
-</Tabs>
-
-<Callout>
-  Pages render as React Server Components by default. If your framework renders on the client, use `serializeMdx` with `MdxClient` instead. The [framework guides](/docs/getting-started/nextjs-app) show both.
-</Callout>
-
-## Requirements
-
-- React 19
-- Tailwind CSS v4, for `@ariadocs/components`
-- Node.js 20 or later, Bun or Deno to read files. The OpenAPI parser also runs in the browser.
+* **Soporte Técnico:** Escríbenos a [`support@chavdav.wtf`](mailto:support@chavdav.wtf) o crea un ticket en nuestra comunidad de Discord.
+* **Proyectos & Configuraciones Personalizadas:** Si buscas servicios de configuración a medida para tu servidor o contacto comercial, contáctanos en [`contac@chavdav.wtf`](mailto:contac@chavdav.wtf).
+* **Comunidad en Discord:** Únete a nuestro servidor en [discord.gg/zresources](https://discord.gg/zresources).
+* **Tienda Oficial:** Encuentra nuestros recursos en [BuiltByBit](https://builtbybit.com).

@@ -1,0 +1,74 @@
+---
+title: zVoidChest - Visión General
+description: Solución integral de VoidChest y Chunk Collector para servidores de Minecraft SkyBlock, Survival y Factions.
+---
+
+**zVoidChests** es un plugin de alto rendimiento diseñado para Minecraft **1.18 hasta 1.21+** que automatiza la recolección de drops del suelo en chunks, el procesamiento de ítems (Auto-Fundición y Auto-Compresión) y la venta automática (Auto-Sell).
+
+Incluye un avanzado sistema de combustible (Gasolina), permisos multiusuario compartidos por cofre, motor dual de hologramas (TextDisplay nativo para 1.19.4+ y ArmorStands para 1.18-1.19.3), protección de enlace a tolvas y soporte completo para SQLite y MySQL.
+
+---
+
+## 🌟 Características Principales
+
+* 🛒 **Auto-Sell:** Integración nativa con **EconomyShopGUI**, **ShopGUI+** o sistema de precios interno mediante `prices.yml`.
+* 🧲 **Smart Chunk Collector:** Recolecta automáticamente los ítems del suelo dentro del mismo chunk (1x1) o en radios ampliados (3x3 chunks).
+* 🧪 **Auto-Smelt & Auto-Compress:** Funde minerales/comida y comprime lingotes en bloques automáticamente según el Tier del cofre.
+* ⛽ **Sistema de Combustible:** Administra el tiempo operativo del cofre con horas gratuitas iniciales y recargas mediante economía del juego.
+* 👥 **Miembros y Permisos Compartidos:** Permite a los dueños invitar compañeros de equipo y otorgarles permisos granulares de acceso.
+* 🛡️ **Enlace Inteligente a Tolvas:** Conecta tolvas mediante `Shift + Clic Derecho` para extraer ítems filtrados directamente a sistemas de almacenamiento.
+* 👻 **Modo Disfraz / Oculto:** Disfraza visualmente el cofre (como Aire, Barrera o Cristal) y oculta el holograma para evitar robos o saturación visual.
+* 📊 **Hologramas Nativos 1.21+:** Hologramas 3D de alto rendimiento basados en TextDisplay con Placeholders en tiempo real y estilos personalizables.
+* 💥 **Eventos Multiplicadores:** Posibilidad de activar eventos globales (ej. multiplicador `2.0x` durante 30 minutos).
+* 🤖 **Logs por Discord Webhook:** Registra auditorías administrativas enviando alertas automáticas a canales de Discord.
+* 💾 **Almacenamiento SQLite / MySQL:** Persistencia de datos asíncrona optimizada para redes de servidores.
+
+---
+
+## 🔌 Matriz de Compatibilidad
+
+| Integración | Estado | Descripción |
+| :--- | :---: | :--- |
+| **Vault** | 🔴 Requerido | Esencial para transacciones de economía. |
+| **Paper / Spigot 1.18 - 1.21+** | 🔴 Requerido | Núcleo del servidor (se recomienda Paper para mejor manejo de chunks). |
+| **EconomyShopGUI / Premium** | 🔵 Soportado | Obtiene automáticamente los precios de venta de los ítems. |
+| **ShopGUI+** | 🔵 Soportado | Obtiene los precios de venta directamente de las tiendas de ShopGUI+. |
+| **FancyHolograms** | 🔵 Soportado | Integración opcional para renderizado de hologramas externos. |
+| **SkinsRestorer** | 🔵 Soportado | Renderiza cabezas personalizadas de jugadores dentro de los menús GUI. |
+
+---
+
+## 🚀 Navegación Rápida
+
+<Cards>
+  <Card
+    title="Instalación & Requisitos"
+    href="/docs/zvoidchest/installation"
+    description="Requisitos previos, instalación paso a paso y configuración de base de datos."
+  />
+  <Card
+    title="Comandos & Permisos"
+    href="/docs/zvoidchest/commands-and-permissions"
+    description="Comandos de administración, alias y nodos de permisos en LuckPerms."
+  />
+  <Card
+    title="Tiers & Mejoras"
+    href="/docs/zvoidchest/tiers-and-upgrades"
+    description="Configuración de niveles de cofre, fórmulas de precios y sub-mejoras."
+  />
+  <Card
+    title="Características & Mecánicas"
+    href="/docs/zvoidchest/features-and-mechanics"
+    description="Guía a fondo de Auto-Sell, Chunk Collector, Gasolina y Tolvas."
+  />
+  <Card
+    title="Archivos & Configuración"
+    href="/docs/zvoidchest/configuration"
+    description="Plantillas anotadas de config.yml, chests.yml, prices.yml y menús."
+  />
+  <Card
+    title="FAQ & Troubleshooting"
+    href="/docs/zvoidchest/faq"
+    description="Preguntas frecuentes, errores comunes y optimización de rendimiento."
+  />
+</Cards>

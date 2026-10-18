@@ -1,0 +1,72 @@
+---
+title: Tiers & Sistema de Mejoras
+description: Desglose completo de Tiers de cofre, sub-mejoras individuales y fórmulas de precios en zVoidChests.
+---
+
+**zVoidChests** cuenta con un sistema de progresión dual: **Tiers Principales** de cofre (configurados en `chests.yml`) y **Sub-Mejoras Individuales** (configuradas en `config.yml`).
+
+---
+
+## 🏆 Tiers Principales
+
+Cada Tier define las capacidades base de un VoidChest:
+
+| Atributo | Tier 1 (Básico) | Tier 2 (Avanzado) | Tier 3 (ÉPICO - Máx) |
+| :--- | :---: | :---: | :---: |
+| **Material del Bloque** | `CHEST` | `CHEST` | `ENDER_CHEST` |
+| **Brillo Encantado** | ⚡ Sí | ⚡ Sí | ⚡ Sí |
+| **Capacidad Base** | 18 Slots | 36 Slots | 54 Slots (Cofre Doble) |
+| **Multiplicador de Venta** | `1.0x` | `1.25x` | `1.5x` |
+| **Radio de Recolección** | Mismo Chunk (1x1) | Mismo Chunk (1x1) | Radio 3x3 Chunks |
+| **Intervalo de Recolección** | 15 Segundos | 10 Segundos | 5 Segundos |
+| **Slots de Filtro Base** | 5 Slots | 10 Slots | 15 Slots |
+| **Auto-Smelt (Fundición)** | ❌ No | ✅ **Sí** | ✅ **Sí** |
+| **Auto-Compress (Bloques)**| ❌ No | ❌ No | ✅ **Sí** |
+| **Costo de Mejora de Tier** | `$5,000.0` | `$15,000.0` | N/A (Nivel Máximo) |
+
+---
+
+## 📈 Sub-Mejoras Individuales (Upgrades GUI)
+
+Dentro del menú interactivo de mejoras (`/vc` ➔ Menú ➔ `Upgrades`), los jugadores pueden mejorar atributos específicos de forma independiente:
+
+1. **📦 Mejora de Capacidad:** Aumenta los slots disponibles en el inventario del cofre.
+2. **💰 Mejora de Multiplicador:** Incrementa el multiplicador de venta de ítems recolectados.
+3. **🗺️ Mejora de Radio:** Expande el radio de recolección de chunks (0 = 1x1 chunk, 1 = 3x3 chunks, 2 = 5x5 chunks).
+4. **🎯 Mejora de Filtro:** Desbloquea slots adicionales para filtros Whitelist y Blacklist.
+5. **⚡ Mejora de Velocidad:** Reduce el intervalo de tiempo entre cada escaneo de recolección.
+6. **👥 Mejora de Miembros:** Permite añadir más jugadores al cofre para compartir la gestión.
+
+---
+
+## ⚙️ Fórmulas y Costos en `config.yml`
+
+Puedes personalizar los costos base y el incremento por nivel en la sección `upgrades` de `config.yml`:
+
+```yaml title="plugins/zVoidChests/config.yml"
+upgrades:
+  capacity:
+    base-cost: 2500.0
+    cost-increment: 2500.0
+    max-level: 5
+  multiplier:
+    base-cost: 5000.0
+    cost-increment: 5000.0
+    max-level: 5
+  radius:
+    base-cost: 7500.0
+    cost-increment: 7500.0
+    max-level: 3
+  filter-slots:
+    base-cost: 3000.0
+    cost-increment: 3000.0
+    max-level: 5
+  speed:
+    base-cost: 4000.0
+    cost-increment: 4000.0
+    max-level: 5
+  member-slots:
+    base-cost: 5000.0
+    cost-increment: 5000.0
+    max-level: 5
+```

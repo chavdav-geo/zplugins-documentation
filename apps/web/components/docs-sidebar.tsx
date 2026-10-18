@@ -8,7 +8,7 @@ import { Docs } from "@ariadocs/components"
 import type { NavItem } from "@ariadocs/core"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@workspace/ui/components/sheet"
 import { site } from "@/lib/site"
-import { GitHubIcon } from "./icons"
+import { BuiltByBitIcon, DiscordIcon } from "./icons"
 import { Logo } from "./logo"
 import { SearchButton } from "./search"
 import { ThemeToggle } from "./theme-toggle"
@@ -28,15 +28,26 @@ function SidebarBody({ items, onNavigate }: { items: NavItem[]; onNavigate?: () 
         <Docs.Nav items={items} activeHref={pathname} linkAs={Link} onNavigate={onNavigate} />
       </div>
       <div className="flex items-center justify-between border-t px-6 py-3">
-        <a
-          href={site.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub repository"
-          className="text-muted-foreground hover:text-foreground -ml-2 inline-flex size-9 items-center justify-center rounded-md transition-colors"
-        >
-          <GitHubIcon />
-        </a>
+        <div className="flex items-center gap-1 -ml-2">
+          <a
+            href={site.builtbybit}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="BuiltByBit"
+            className="text-muted-foreground hover:text-foreground inline-flex size-9 items-center justify-center rounded-md transition-colors"
+          >
+            <BuiltByBitIcon />
+          </a>
+          <a
+            href={site.discord}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Discord"
+            className="text-muted-foreground hover:text-foreground inline-flex size-9 items-center justify-center rounded-md transition-colors"
+          >
+            <DiscordIcon />
+          </a>
+        </div>
         <ThemeToggle />
       </div>
     </div>

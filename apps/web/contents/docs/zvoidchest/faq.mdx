@@ -1,0 +1,35 @@
+---
+title: FAQ & Solución de Problemas
+description: Preguntas frecuentes, soluciones a errores comunes y optimización de rendimiento para zVoidChests.
+---
+
+Respuestas a las preguntas más habituales y soluciones a posibles problemas técnicos con **zVoidChests**.
+
+---
+
+## ❓ Preguntas Frecuentes
+
+### ¿Qué ocurre si un cofre se queda sin combustible?
+El cofre pausará temporalmente la recolección y las ventas automáticas. Los ítems acumulados no se perderán. En cuanto el propietario o un miembro agregue combustible desde el menú interactivo, el cofre reanudará su funcionamiento inmediatamente.
+
+### ¿Se pueden vender ítems con nombres o encantamientos personalizados?
+Por defecto, el plugin vende materiales genéricos compatibles con tu plugin de economía (ShopGUI+ o EconomyShopGUI). Puedes usar los menús de **Filtros** para poner en Lista Negra (Blacklist) cualquier ítem valioso que no deba venderse.
+
+### ¿Cómo configuro límites de cofres por rango de jugador?
+Utiliza permisos de LuckPerms como `voidchest.limit.3` para usuarios normales o `voidchest.limit.10` para rangos VIP. Si deseas cofres ilimitados para administradores, asigna `voidchest.limit.unlimited`.
+
+---
+
+## 🔧 Solución de Problemas Comunes
+
+### 1. Los ítems no se venden y la consola muestra un aviso de economía
+* **Causa:** Vault no detectó un plugin de economía compatible.
+* **Solución:** Comprueba que tienes instalado **EssentialsX** (o tu plugin de dinero) junto con **Vault**, y que el comando `/eco` o `/balance` funciona en el juego.
+
+### 2. Los precios de venta son $0.00
+* **Causa:** `shop-plugin` está configurado en `none` y no se han definido precios en `prices.yml`, o la tienda de EconomyShopGUI/ShopGUI+ no contiene esos ítems.
+* **Solución:** Si usas EconomyShopGUI o ShopGUI+, asegúrate de que el nombre del proveedor en `config.yml` coincida exactamente (`economyshopgui` o `shopgui+`). Si no usas tienda, añade los precios en `prices.yml`.
+
+### 3. Los hologramas no aparecen sobre el cofre
+* **Causa:** Los hologramas están deshabilitados en `config.yml` o el cofre está en modo oculto (`disguised`).
+* **Solución:** Verifica que `holograms.enabled: true` esté configurado en `config.yml`, o abre el menú del cofre con Shift + Clic y desactiva el modo camuflaje.

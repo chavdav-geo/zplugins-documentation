@@ -1,0 +1,65 @@
+---
+title: Comandos & Permisos
+description: Lista completa de comandos, sintaxis, alias y nodos de permisos en LuckPerms para zVoidChests.
+---
+
+Esta sección detalla todos los comandos disponibles, alias, sintaxis de uso y nodos de permisos para **zVoidChests**.
+
+---
+
+## 💻 Comando Principal & Alias
+
+El comando base del plugin es `/voidchest`. Puedes usar cualquiera de los siguientes alias de manera intercambiable:
+
+* `/vc` *(Recomendado)*
+* `/voidchest`
+* `/voidchests`
+* `/vchest`
+
+---
+
+## 📑 Tabla de Comandos Administrativos
+
+<Callout type="note">
+  Todos los comandos administrativos requieren el permiso `voidchest.admin`.
+</Callout>
+
+| Comando | Sintaxis | Descripción | Ejemplo de Uso |
+| :--- | :--- | :--- | :--- |
+| **Give** | `/vc give <jugador> <tier> [cantidad]` | Entrega uno o varios VoidChests de un Tier específico a un jugador. | `/vc give Alex 1 2` |
+| **Give All** | `/vc giveall <tier> [cantidad]` | Distribuye VoidChests del Tier seleccionado a **TODOS** los jugadores online. | `/vc giveall 2 1` |
+| **Teleport** | `/vc tp <jugador \| UUID_cofre>` | Abre un menú GUI con los cofres de un jugador o te teletransporta a un cofre específico. | `/vc tp Alex` |
+| **Purge** | `/vc purge <días>` | Purga y elimina automáticamente todos los cofres de jugadores inactivos por más de X días. | `/vc purge 30` |
+| **Booster** | `/vc booster <multiplicador> <minutos>` | Activa un evento global de multiplicador de ventas en todo el servidor. | `/vc booster 2.0 30` |
+| **Reload** | `/vc reload` | Recarga todos los archivos de configuración (`config.yml`, `chests.yml`, `prices.yml`, idiomas y menús). | `/vc reload` |
+
+---
+
+## 🔑 Nodos de Permisos
+
+### 1. Permisos de Usuario
+
+* **`voidchest.use`** *(Por defecto: `true`)*
+  * Permite a los jugadores colocar, abrir, interactuar y administrar sus propios VoidChests.
+
+### 2. Permisos Administrativos
+
+* **`voidchest.admin`** *(Por defecto: `op`)*
+  * Otorga acceso total a todos los comandos de administración.
+
+### 3. Permisos de Límites de Colocación (Ranks & VIPs)
+
+Puedes restringir la cantidad máxima de VoidChests que un jugador o rango (VIP, MVP, etc.) puede colocar en el mundo:
+
+* **`voidchest.limit.<cantidad>`**
+  * Define el límite máximo de cofres permitidos para el usuario.
+  * *Ejemplos:*
+    * `voidchest.limit.1` ➔ Máximo 1 VoidChest.
+    * `voidchest.limit.5` ➔ Máximo 5 VoidChests.
+    * `voidchest.limit.10` ➔ Máximo 10 VoidChests.
+* **`voidchest.limit.*`** o **`voidchest.limit.unlimited`**
+  * Permite colocar VoidChests de forma ilimitada.
+
+<Callout type="tip">
+  Si un jugador no tiene configurado ningún permiso `voidchest.limit.<n>`, el plugin utilizará el valor por defecto configurado en `config.yml` (`general.default-max-chests: 5`).
+</Callout>

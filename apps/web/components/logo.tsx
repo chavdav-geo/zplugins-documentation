@@ -1,11 +1,18 @@
 import { cn } from "@ariadocs/components"
 
-/** The Ariadocs mark: an A built from two pieces. Colors follow the theme. */
+/** The zPlugins mark: a modern Z emblem for Minecraft plugins */
 export function LogoMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="6 6 36 36" aria-hidden className={cn("size-5 shrink-0", className)}>
-      <path d="M8 40 L20 8 H27 L15 40 Z" className="fill-foreground" />
-      <path d="M21 40 L28 21 L40 40 Z" className="fill-muted-foreground" />
+    <svg viewBox="0 0 36 36" fill="none" aria-hidden className={cn("size-6 shrink-0", className)}>
+      <rect width="36" height="36" rx="8" className="fill-primary/10 stroke-primary/30" strokeWidth="1.5" />
+      <path
+        d="M10 11H26L14 25H26"
+        stroke="currentColor"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="text-primary"
+      />
     </svg>
   )
 }
@@ -13,9 +20,9 @@ export function LogoMark({ className }: { className?: string }) {
 /** Mark + name, used in the header, sidebar and footer. */
 export function Logo({ className }: { className?: string }) {
   return (
-    <span className={cn("inline-flex items-center gap-2 font-semibold tracking-tight", className)}>
+    <span className={cn("inline-flex items-center gap-2.5 font-bold tracking-tight text-lg", className)}>
       <LogoMark />
-      Ariadocs
+      <span>zPlugins</span>
     </span>
   )
 }

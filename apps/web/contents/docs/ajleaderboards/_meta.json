@@ -1,0 +1,6 @@
+[
+  { "slug": "index", "title": "Guía de Configuración" },
+  { "slug": "placeholders", "title": "Placeholders y Tops" },
+  { "slug": "holograms", "title": "Integración con Hologramas" },
+  { "slug": "optimization", "title": "Rendimiento y Base de Datos" }
+]

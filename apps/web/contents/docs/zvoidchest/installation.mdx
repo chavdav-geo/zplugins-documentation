@@ -1,0 +1,65 @@
+---
+title: Instalación & Requisitos
+description: Guía paso a paso para instalar y configurar zVoidChests en tu servidor de Minecraft.
+---
+
+Esta guía te guiará paso a paso en la instalación y puesta en marcha de **zVoidChests** en tu servidor.
+
+---
+
+## 📋 Requisitos Previos
+
+Antes de instalar el plugin, verifica que tu entorno cumpla con las siguientes especificaciones:
+
+### 1. Entorno del Servidor
+* **Versión de Minecraft:** `1.18` o superior (`1.18.x`, `1.19.x`, `1.20.x`, `1.21.x+`).
+* **Software de Servidor:** **Paper**, **Purpur** o **Spigot** (se recomienda encarecidamente Paper por su manejo optimizado de entidades y chunks).
+* **Versión de Java:** **Java 17** o superior.
+
+### 2. Dependencias
+
+| Plugin | Estado | Función |
+| :--- | :---: | :--- |
+| **Vault** | 🔴 **Requerido** | Esencial para transacciones de economía y saldos. |
+| **Plugin de Economía** | 🔴 **Requerido** | EssentialsX, CraftConomy o cualquier plugin compatible con Vault. |
+| **EconomyShopGUI** | 🔵 Opcional | Provee precios de venta automáticos desde la tienda. |
+| **ShopGUI+** | 🔵 Opcional | Proveedor alternativo para precios de venta. |
+| **FancyHolograms** | 🔵 Opcional | Permite compatibilidad con hologramas externos. |
+| **SkinsRestorer** | 🔵 Opcional | Muestra cabezas de jugadores en los menús interactivos. |
+
+---
+
+## ⚙️ Instalación Paso a Paso
+
+1. **Descargar el Plugin:** Obtén el archivo `zVoidChests.jar` desde BuiltByBit.
+2. **Subir al Servidor:** Coloca el archivo `.jar` en la carpeta `/plugins/` de tu servidor.
+3. **Verificar Dependencias:** Asegúrate de tener instalado **Vault** y tu plugin de economía en `/plugins/`.
+4. **Iniciar el Servidor:** Inicia o reinicia el servidor para que se generen automáticamente las carpetas y configuraciones por defecto en `/plugins/zVoidChests/`.
+5. **Revisar la Consola:** Confirma que el plugin inicia correctamente sin errores:
+   ```text
+   [zVoidChests] Enabling zVoidChests v1
+   [zVoidChests] Connected to database (SQLITE)...
+   [zVoidChests] Loaded 3 VoidChest Tiers.
+   ```
+
+---
+
+## 💾 Configuración de Base de Datos (SQLite vs MySQL)
+
+**zVoidChests** soporta dos motores de almacenamiento. Puedes seleccionar el modo deseado en `config.yml`:
+
+```yaml title="plugins/zVoidChests/config.yml"
+storage:
+  type: "SQLITE" # Opciones: "SQLITE" o "MYSQL"
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "zvoidchests"
+    username: "root"
+    password: "tu_password_seguro"
+    ssl: false
+```
+
+<Callout type="tip">
+  Para servidores individuales con menos de 100 jugadores concurrentes, **SQLITE** ofrece un rendimiento óptimo sin requerir servicios externos. Para redes de servidores o entornos de alta concurrencia, se recomienda **MYSQL**.
+</Callout>

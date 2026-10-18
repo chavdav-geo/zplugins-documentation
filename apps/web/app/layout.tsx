@@ -13,7 +13,7 @@ const sans = Space_Grotesk({ subsets: ["latin"], variable: "--font-sans" })
 const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-mono" })
 
 export const metadata: Metadata = {
-  title: { default: `${site.name}: the documentation toolkit for React`, template: `%s · ${site.name}` },
+  title: { default: `${site.name} · Documentación Oficial`, template: `%s · ${site.name}` },
   description: site.description,
 }
 
@@ -21,7 +21,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const searchIndex = await getSearchIndex()
 
   return (
-    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${mono.variable}`}>
+    <html lang="es" suppressHydrationWarning className={`${sans.variable} ${mono.variable}`}>
       <body className="bg-background text-foreground min-h-dvh font-sans antialiased">
         <Providers>
           <SearchProvider entries={searchIndex}>{children}</SearchProvider>

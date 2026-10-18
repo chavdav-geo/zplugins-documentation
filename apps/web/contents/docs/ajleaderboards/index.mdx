@@ -1,0 +1,60 @@
+---
+title: ajLeaderboards - Guía de Configuración
+description: Guía detallada de opciones, parámetros y mejores prácticas para el archivo config.yml de ajLeaderboards.
+---
+
+**ajLeaderboards** es uno de los plugins de tablas de clasificación y tops más eficientes y populares para servidores de Minecraft. Permite registrar cualquier estadística obtenida mediante **PlaceholderAPI** y mostrarla en hologramas, carteles, inventarios GUI o chat.
+
+---
+
+## ⚙️ Explicación de Opciones en `config.yml`
+
+A continuación se explican las directivas más importantes del archivo `plugins/ajLeaderboards/config.yml`:
+
+### 1. `stat-refresh: 1200`
+* **Definición:** Intervalo en ticks (20 ticks = 1 segundo) para refrescar las estadísticas de los jugadores en línea.
+* **Recomendación:** El valor por defecto de `1200` (60 segundos) es ideal para no sobrecargar el hilo principal del servidor. En servidores grandes, puedes aumentarlo a `2400` (2 minutos) para mejorar el TPS.
+
+### 2. `enable-dontupdate-permission: true`
+* **Definición:** Permite utilizar el permiso `ajleaderboards.dontupdate.<board>` para excluir a miembros del staff, bots o cuentas de prueba de las tablas de clasificación.
+
+### 3. `blocking-fetch: auto`
+* **Opciones:** `auto`, `true`, `false`.
+* **Explicación:** En modo `auto`, ajLeaderboards solo bloquea el hilo cuando no se encuentra en el hilo principal del servidor, evitando tirones de lag en el juego.
+
+### 4. `update-on-join` y `update-on-leave`
+```yaml
+update-on-join: true
+update-on-leave: true
+```
+* **Explicación:** Garantiza que las estadísticas se sincronicen en el momento exacto en que un jugador entra o sale del servidor. Evita pérdidas de datos o discrepancias si un jugador desconecta rápidamente tras ganar dinero o partidas.
+
+### 5. `update-stats: true` (Modo Solo Lectura en Lobbies)
+```yaml
+# ¿Debe este servidor actualizar estadísticas de jugadores?
+update-stats: true
+```
+<Callout type="tip">
+  En redes BungeeCord o Velocity con servidores de **Lobby / Hub**, establece `update-stats: false` en los lobbies. De esta forma, el lobby únicamente **leerá** las tablas de la base de datos MySQL sin sobrescribir ni duplicar cálculos mientras los jugadores están en la modalidad de juego.
+</Callout>
+
+### 6. `reverse-sort: []`
+* Permite ordenar tablas en orden ascendente (el valor menor queda en el puesto #1).
+* **Casos de uso:** Tiempos de parkour, muertes en minijuegos o récords de menor tiempo.
+* **Ejemplo:**
+  ```yaml
+  reverse-sort:
+    - "parkour_time"
+  ```
+
+### 7. Reseteos Temporales y Guardado de Historial
+```yaml
+reset-save-positions: 10
+reset-save-types:
+  - DAILY
+  - WEEKLY
+  - MONTHLY
+  - YEARLY
+reset-weekly-on: sunday
+```
+* Guarda automáticamente el Top 10 histórico de cada reseteo en la carpeta `past-resets/` para que nunca pierdas el historial de ganadores diarios o mensuales.

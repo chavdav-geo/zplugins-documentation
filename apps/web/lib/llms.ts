@@ -1,15 +1,13 @@
 import type { NavItem } from "@ariadocs/core"
 import type { DocsInstance } from "@ariadocs/mdx"
-import { getOperationTitle, type APIOperation } from "@ariadocs/openapi"
 import { flattenLinks, getSidebar } from "./navigation"
-import { componentDocs, docs, openapi, REFERENCE_BASE } from "./source"
+import { docs } from "./source"
 import { site } from "./site"
 
 /* Plain-text versions of the site for LLMs: /llms.txt (index) and /llms-full.txt (everything). */
 
 const sources: { base: string; source: DocsInstance }[] = [
   { base: "/docs", source: docs },
-  { base: "/components", source: componentDocs },
 ]
 
 interface Page {
@@ -18,7 +16,6 @@ interface Page {
   description?: string
   /** The MDX source without frontmatter. Only for MDX pages. */
   body?: string
-  operation?: APIOperation
 }
 
 interface Section {
@@ -34,34 +31,27 @@ function resolve(href: string): { source: DocsInstance; slug: string } | undefin
   return undefined
 }
 
-async function toPage(item: NavItem, operations: Map<string, APIOperation>, withBody: boolean): Promise<Page> {
+async function toPage(item: NavItem, withBody: boolean): Promise<Page> {
   const mdx = resolve(item.href)
   if (mdx !== undefined) {
     const frontmatter = await mdx.source.getFrontmatter<{ title?: string; description?: string }>({ slug: mdx.slug })
     const body = withBody ? stripFrontmatter(await mdx.source.read({ slug: mdx.slug })) : undefined
     return { title: frontmatter.title ?? item.title, href: item.href, description: frontmatter.description, body }
   }
-  const operation = operations.get(item.href)
-  if (operation !== undefined) {
-    return {
-      title: getOperationTitle(operation),
-      href: item.href,
-      description: `${operation.method.toUpperCase()} ${operation.path}`,
-      operation,
-    }
-  }
   return { title: item.title, href: item.href }
 }
 
 /** Every page in sidebar order, grouped by sidebar section. */
 async function getSections(withBody: boolean): Promise<Section[]> {
-  const [sidebar, api] = await Promise.all([getSidebar(), openapi.parse()])
-  const operations = new Map(api.operations.map((operation) => [`${REFERENCE_BASE}/${operation.id}`, operation]))
+  const sidebar = await getSidebar()
   return Promise.all(
-    sidebar.map(async (section) => ({
-      title: section.title,
-      pages: await Promise.all(flattenLinks(section.items).map((item) => toPage(item, operations, withBody))),
-    }))
+    sidebar.map(async (section) => {
+      const itemsToFlatten = section.items.length > 0 ? section.items : [section]
+      return {
+        title: section.title,
+        pages: await Promise.all(flattenLinks(itemsToFlatten).map((item) => toPage(item, withBody))),
+      }
+    })
   )
 }
 
@@ -74,15 +64,14 @@ function url(href: string): string {
 }
 
 function header(): string {
-  return `# ${site.name}\n\n> ${site.description}\n\nInstall: \`${site.install}\``
+  return `# ${site.name}\n\n> ${site.description}`
 }
 
 export async function getLlmsTxt(): Promise<string> {
   const sections = await getSections(false)
   const lines = [
     header(),
-    `The full text of every page is at ${url("/llms-full.txt")}.`,
-    "@ariadocs/components does not include MDX content components (Callout, Tabs, Steps, Cards). Write your own and pass them to `createDocs({ components })`.",
+    `Documentación completa en ${url("/llms-full.txt")}.`,
   ]
   for (const section of sections) {
     lines.push(`## ${section.title}`)
@@ -100,36 +89,11 @@ export async function getLlmsFullTxt(): Promise<string> {
   const parts = [header()]
   for (const section of sections) {
     for (const page of section.pages) {
-      const content = page.body ?? (page.operation !== undefined ? describeOperation(page.operation) : undefined)
+      const content = page.body
       if (content === undefined) continue
-      const lead = page.description !== undefined && page.operation === undefined ? `\n\n${page.description}` : ""
+      const lead = page.description !== undefined ? `\n\n${page.description}` : ""
       parts.push(`---\n\n# ${page.title}\n\nSource: ${url(page.href)}${lead}\n\n${content}`)
     }
   }
   return `${parts.join("\n\n")}\n`
-}
-
-function describeOperation(operation: APIOperation): string {
-  const lines = [`\`${operation.method.toUpperCase()} ${operation.path}\``]
-  if (operation.description) lines.push(operation.description)
-  if (operation.parameters.length > 0) {
-    lines.push(
-      "Parameters:\n\n" +
-        operation.parameters
-          .map(
-            (parameter) =>
-              `- \`${parameter.name}\` (${parameter.in}${parameter.required ? ", required" : ""})${parameter.description ? `: ${parameter.description}` : ""}`
-          )
-          .join("\n")
-    )
-  }
-  if (operation.responses.length > 0) {
-    lines.push(
-      "Responses:\n\n" +
-        operation.responses
-          .map((response) => `- \`${response.status}\`${response.description ? `: ${response.description}` : ""}`)
-          .join("\n")
-    )
-  }
-  return lines.join("\n\n")
 }

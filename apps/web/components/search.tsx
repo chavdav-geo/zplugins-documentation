@@ -60,7 +60,7 @@ export function SearchButton({ compact = false, className }: { compact?: boolean
       )}
     >
       <Search className="size-[15px]" />
-      <span className="flex-1 text-left">Search</span>
+      <span className="flex-1 text-left">Buscar</span>
       <kbd className="text-muted-foreground font-mono text-[11px]">⌘K</kbd>
     </button>
   )
@@ -128,15 +128,15 @@ function SearchDialog({ entries, onClose }: { entries: SearchEntry[]; onClose: (
                 onClose()
               }
             }}
-            aria-label="Search"
-            placeholder="Search docs, components and endpoints"
+            aria-label="Buscar"
+            placeholder="Buscar en la documentación..."
             className="placeholder:text-muted-foreground h-12 flex-1 bg-transparent text-sm outline-none"
           />
           <kbd className="text-muted-foreground rounded border px-1.5 font-mono text-[10px]">Esc</kbd>
         </div>
         <ul ref={listRef} className="max-h-[55vh] overflow-y-auto p-2">
           {results.length === 0 ? (
-            <li className="text-muted-foreground px-3 py-8 text-center text-sm">No results for “{query}”</li>
+            <li className="text-muted-foreground px-3 py-8 text-center text-sm">No se encontraron resultados para “{query}”</li>
           ) : (
             results.map((entry, index) => (
               <li key={entry.href} data-index={index}>

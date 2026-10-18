@@ -2,7 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import type { NavItem } from "@ariadocs/core"
 import type { DocsInstance } from "@ariadocs/mdx"
-import { componentDocs, docs, openapi, REFERENCE_BASE } from "./source"
+import { docs } from "./source"
 import { site } from "./site"
 
 /** Prefix every relative href in a tree, e.g. "/intro" → "/docs/intro" ("/" → "/docs"). */
@@ -57,43 +57,12 @@ export async function getDocsNavigation(): Promise<NavItem[]> {
   return withBase(await docs.getNavigation(), "/docs")
 }
 
-export async function getComponentsNavigation(): Promise<NavItem[]> {
-  return withBase(await componentDocs.getNavigation(), "/components")
-}
-
-export async function getReferenceNavigation(): Promise<NavItem[]> {
-  const tags = await openapi.getNavigation({
-    getOperationHref: (operation) => `${REFERENCE_BASE}/${operation.id}`,
-    getTagHref: (tag) => `${REFERENCE_BASE}#${tag.id}`,
-  })
-  return [
-    { title: "Overview", href: REFERENCE_BASE, nav: true, props: {}, items: [] },
-    { title: "Schemas", href: `${REFERENCE_BASE}/schemas`, nav: true, props: {}, items: [] },
-    ...tags,
-  ]
-}
-
-function section(title: string, href: string, items: NavItem[]): NavItem {
+export function section(title: string, href: string, items: NavItem[]): NavItem {
   return { title, href, nav: true, props: {}, items }
 }
 
-/** The one sidebar shared by Docs, Components and the API Reference. */
+/** The sidebar for zPlugins Documentation. */
 export async function getSidebar(): Promise<NavItem[]> {
-  const [docsNav, componentsNav, referenceNav] = await Promise.all([
-    getDocsNavigation(),
-    getComponentsNavigation(),
-    getReferenceNavigation(),
-  ])
-
-  const isPackage = (item: NavItem) => item.title.startsWith("@ariadocs/")
-  // The components docs live under /components; list them as a package folder.
-  const packages = docsNav.filter(isPackage)
-  const core = packages.findIndex((item) => item.title === "@ariadocs/core")
-  packages.splice(core === -1 ? packages.length : core, 0, section("@ariadocs/components", "/components", componentsNav))
-
-  return [
-    section("Documentation", "#documentation", docsNav.filter((item) => !isPackage(item))),
-    section("Packages", "#packages", packages),
-    section("API Reference", "#api-reference", referenceNav),
-  ]
+  const docsNav = await getDocsNavigation()
+  return docsNav
 }

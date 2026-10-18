@@ -1,0 +1,73 @@
+---
+title: Placeholders & Comandos de Tops
+description: Lista completa de sintaxis de placeholders y comandos para crear tablas de clasificación en ajLeaderboards.
+---
+
+**ajLeaderboards** se integra directamente con **PlaceholderAPI** para extraer y clasificar cualquier estadística numérica en tu servidor.
+
+---
+
+## 📌 Comandos Principales
+
+| Comando | Sintaxis | Descripción |
+| :--- | :--- | :--- |
+| **Añadir Top** | `/ajlb add <board> <tipo>` | Registra un nuevo leaderboard para rastrear. |
+| **Eliminar Top** | `/ajlb remove <board> <tipo>` | Elimina un leaderboard del rastreo activo. |
+| **Listar Tops** | `/ajlb list` | Muestra la lista de leaderboards registrados. |
+| **Recargar** | `/ajlb reload` | Recarga las configuraciones y mensajes. |
+| **Limpiar Datos** | `/ajlb reset <board> <tipo>` | Resetea los datos de un leaderboard específico. |
+
+---
+
+## ⏱️ Tipos de Períodos (Timed Types)
+
+Al registrar una tabla mediante `/ajlb add <board> <tipo>`, puedes especificar uno o varios de los siguientes períodos:
+
+* `alltime` - Histórico total sin reseteo.
+* `daily` - Reseteo automático cada 24 horas (a medianoche).
+* `weekly` - Reseteo semanal (configurable en `config.yml`, por defecto domingo).
+* `monthly` - Reseteo el día 1 de cada mes.
+* `yearly` - Reseteo anual.
+
+---
+
+## 🔢 Sintaxis de Placeholders
+
+Para mostrar los valores en hologramas, carteles o interfaces:
+
+### 1. Nombre del Jugador en una Posición
+```text
+%ajlb_lb_<board>_<pos>_<tipo>_name%
+```
+* *Ejemplo (Top #1 Kills Histórico):*
+  `%ajlb_lb_statistic_player_kills_1_alltime_name%`
+* *Ejemplo (Top #2 Dinero Semanal):*
+  `%ajlb_lb_vault_eco_balance_2_weekly_name%`
+
+### 2. Valor / Puntuación en una Posición
+```text
+%ajlb_lb_<board>_<pos>_<tipo>_value%
+```
+* *Ejemplo (Kills del Top #1):*
+  `%ajlb_lb_statistic_player_kills_1_alltime_value%`
+
+### 3. Posición Actual del Jugador que Observa
+```text
+%ajlb_position_<board>_<tipo>%
+```
+* Muestra el puesto actual (ej: `14`) del jugador que ve el texto.
+
+---
+
+## 🏆 Tablas Más Populares para Servidores
+
+* **Kills de Jugadores:**
+  `/ajlb add statistic_player_kills alltime` y `/ajlb add statistic_player_kills weekly`
+* **Muertes:**
+  `/ajlb add statistic_deaths alltime`
+* **Dinero / Balance de Economía:**
+  `/ajlb add vault_eco_balance alltime`
+* **Tiempo Jugado:**
+  `/ajlb add statistic_time_played alltime`
+* **Bloques Picados (Minería):**
+  `/ajlb add statistic_mine_block alltime`

@@ -1,0 +1,51 @@
+---
+title: Rendimiento & Base de Datos
+description: Mejores prácticas de optimización, sincronización entre servidores y configuración de base de datos para ajLeaderboards.
+---
+
+En servidores con alto volumen de jugadores (Survival, SkyBlock o Factions), es fundamental afinar la configuración de ajLeaderboards para mantener un TPS constante de 20.0.
+
+---
+
+## ⚡ 1. Ajuste de Refresco de Estadísticas (`stat-refresh`)
+
+Por defecto, ajLeaderboards recalcula las tablas cada `1200` ticks (60 segundos):
+
+* **Servidores pequeños (1 a 40 jugadores):** Mantener `1200` ticks.
+* **Servidores medianos/grandes (80+ jugadores):** Se recomienda subirlo a `2400` (120 segundos) o `3600` (180 segundos).
+
+```yaml title="plugins/ajLeaderboards/config.yml"
+stat-refresh: 2400
+```
+
+<Callout type="tip">
+  Los jugadores no notarán si el top de dinero o bloques se actualiza cada 2 minutos en lugar de cada 60 segundos, pero tu CPU reducirá drásticamente las consultas en memoria.
+</Callout>
+
+---
+
+## 💾 2. Sincronización en Redes (MySQL / MariaDB)
+
+Si tienes múltiples servidores conectados mediante un proxy (BungeeCord o Velocity):
+
+1. **Configura MySQL en todos los servidores:**
+   En `plugins/ajLeaderboards/config.yml`, configura las mismas credenciales de base de datos MySQL en las modalidades de juego.
+
+2. **Lobbies en Modo Solo Lectura:**
+   En los servidores de Lobby o Hub donde solo muestras los hologramas pero los jugadores no acumulan estadísticas activas, configura:
+   ```yaml
+   update-stats: false
+   ```
+   Esto previene bloqueos de escritura y elimina el lag en los lobbies al no reescribir datos ya calculados por el Survival o SkyBlock.
+
+---
+
+## 🧹 3. Limpieza y Purga Periódica
+
+Para mantener el archivo de base de datos ligero:
+
+* Si una estadística temporal (como `daily` o `weekly`) ya no es necesaria, elimínala con:
+  ```bash
+  /ajlb remove <board> <tipo>
+  ```
+* Revisa periódicamente la carpeta `plugins/ajLeaderboards/past-resets/` si tu disco tiene espacio limitado.

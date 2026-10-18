@@ -1,0 +1,110 @@
+---
+title: Archivos & Configuración
+description: Explicación técnica y plantillas anotadas para config.yml, chests.yml, prices.yml y menús en zVoidChests.
+---
+
+Esta página detalla la estructura y el contenido de los archivos de configuración generados en `/plugins/zVoidChests/`.
+
+---
+
+## 📂 Estructura de Directorios
+
+```text
+plugins/zVoidChests/
+├── config.yml            # Configuración general, hologramas, base de datos y precios de sub-mejoras.
+├── chests.yml            # Definición de Tiers, ítems, lores, costos de mejora y habilidades.
+├── prices.yml            # Tabla de precios interna (cuando shop-plugin es "none").
+├── database.db           # Base de datos SQLite local (cuando storage.type es "SQLITE").
+├── lang/                 # Archivos de traducción de idiomas.
+│   ├── es_ES.yml         # Español (ES)
+│   ├── en_US.yml         # Inglés (US)
+│   ├── fr_FR.yml         # Francés (FR)
+│   └── de_DE.yml         # Alemán (DE)
+└── menus/                # Archivos de diseño de menús interactivos GUI.
+    ├── main-menu.yml     # Menú principal del cofre.
+    ├── upgrades-menu.yml # Menú de sub-mejoras.
+    ├── filter-menu.yml   # Menú de filtro Whitelist/Blacklist.
+    ├── members-menu.yml  # Menú de gestión de miembros.
+    └── admin-tp-menu.yml # Menú administrativo de teletransporte a cofres.
+```
+
+---
+
+## 📝 1. `config.yml` (Plantilla Anotada)
+
+```yaml title="plugins/zVoidChests/config.yml"
+general:
+  prefix: "&#00E5FF&l[zVoidChests] &r" # Prefijo del plugin en chat
+  language: "es_ES"                    # Idioma activo: es_ES, en_US, fr_FR, de_DE
+  shop-plugin: "economyshopgui"        # Proveedor de precios: "economyshopgui", "shopgui+", "none"
+  webhook-url: "https://discord.com/api/webhooks/..." # URL de webhook de Discord para logs
+  auto-save-interval: 300              # Intervalo de guardado en segundos (5 minutos)
+  default-max-chests: 5                # Límite por defecto si no tiene permiso voidchest.limit.<n>
+
+fuel:
+  enabled: true                        # Activar o desactivar requerimiento de combustible
+  initial-free-hours: 2                # Horas gratis al colocar el cofre
+  cost-per-hour: 1000.0                # Costo por hora de combustible
+
+auto-sell:
+  interval: 5                          # Frecuencia de venta en segundos
+  sell-particles: true                 # Efectos visuales de partículas
+  notify-player: true                  # Notificaciones resumidas en chat
+  notification-cooldown: 30            # Cooldown entre notificaciones en segundos
+
+collector:
+  instant-collection: true             # Recolección instantánea
+  vacuum-particles: true               # Partículas de absorción de ítems
+
+holograms:
+  enabled: true                        # Activar hologramas sobre el cofre
+  height-offset: 1.25                  # Altura del holograma sobre el cofre
+  lines:
+    - "&#00E5FF&l{tier_name}"
+    - "&7Dueño: &f{owner}"
+    - "&7Estado: {status}"
+    - "&7Gasolina: &e{fuel_time}"
+```
+
+---
+
+## 📦 2. `chests.yml` (Definición de Tiers)
+
+```yaml title="plugins/zVoidChests/chests.yml"
+tiers:
+  1:
+    name: "&#00E5FF&lTier I VoidChest"
+    material: "CHEST"
+    glow: true
+    slots: 18
+    money-multiplier: 1.0
+    collection-radius: 0
+    collection-interval: 15
+    auto-smelt: false
+    auto-compress: false
+    upgrade-cost: 5000.0
+    next-tier: 2
+  2:
+    name: "&#7C4DFF&lTier II VoidChest"
+    material: "CHEST"
+    glow: true
+    slots: 36
+    money-multiplier: 1.25
+    collection-radius: 0
+    collection-interval: 10
+    auto-smelt: true
+    auto-compress: false
+    upgrade-cost: 15000.0
+    next-tier: 3
+  3:
+    name: "&#FFD700&lTier III VoidChest (ÉPICO)"
+    material: "ENDER_CHEST"
+    glow: true
+    slots: 54
+    money-multiplier: 1.5
+    collection-radius: 1
+    collection-interval: 5
+    auto-smelt: true
+    auto-compress: true
+    upgrade-cost: -1 # Nivel máximo
+```

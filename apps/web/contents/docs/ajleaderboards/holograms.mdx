@@ -1,0 +1,55 @@
+---
+title: Integración con Hologramas (FancyHolograms)
+description: Guía paso a paso para crear tablas de clasificación flotantes con ajLeaderboards y FancyHolograms o DecentHolograms.
+---
+
+Una de las formas más llamativas de presentar las estadísticas en el spawn o lobby de tu servidor es mediante **hologramas flotantes 3D**.
+
+---
+
+## 🎨 Creación con FancyHolograms
+
+**FancyHolograms** utiliza las nuevas entidades nativas de Minecraft (TextDisplay) en versiones `1.19.4` y `1.21+`, garantizando cero lag y colores modernos.
+
+### Paso 1: Registrar la Estadística
+Asegúrate de haber añadido el leaderboard con ajLeaderboards:
+```bash
+/ajlb add statistic_player_kills alltime
+```
+
+### Paso 2: Crear el Holograma
+Ponte en la posición donde deseas colocar el top y ejecuta:
+```bash
+/hologram create top_kills
+```
+
+### Paso 3: Configurar las Líneas del Top
+Añade las líneas con los placeholders de ajLeaderboards. Puedes editar directamente el archivo `plugins/FancyHolograms/holograms.yml` o utilizar comandos en el juego:
+
+```yaml title="plugins/FancyHolograms/holograms.yml"
+top_kills:
+  location:
+    world: world
+    x: 100.5
+    y: 72.0
+    z: -45.5
+  text:
+    - "<gradient:#FF007A:#7928CA><bold>⚔️ TOP ASESINATOS ⚔️</bold></gradient>"
+    - "<gray>Actualizado en tiempo real</gray>"
+    - ""
+    - "<gold>#1</gold> <yellow>%ajlb_lb_statistic_player_kills_1_alltime_name%</yellow> <dark_gray>-</dark_gray> <green>%ajlb_lb_statistic_player_kills_1_alltime_value% Kills</green>"
+    - "<gray>#2</gray> <white>%ajlb_lb_statistic_player_kills_2_alltime_name%</white> <dark_gray>-</dark_gray> <green>%ajlb_lb_statistic_player_kills_2_alltime_value% Kills</green>"
+    - "<red>#3</red> <white>%ajlb_lb_statistic_player_kills_3_alltime_name%</white> <dark_gray>-</dark_gray> <green>%ajlb_lb_statistic_player_kills_3_alltime_value% Kills</green>"
+    - "<dark_gray>#4</dark_gray> <white>%ajlb_lb_statistic_player_kills_4_alltime_name%</white> <dark_gray>-</dark_gray> <green>%ajlb_lb_statistic_player_kills_4_alltime_value% Kills</green>"
+    - "<dark_gray>#5</dark_gray> <white>%ajlb_lb_statistic_player_kills_5_alltime_name%</white> <dark_gray>-</dark_gray> <green>%ajlb_lb_statistic_player_kills_5_alltime_value% Kills</green>"
+    - ""
+    - "<aqua>Tu posición: <yellow>#%ajlb_position_statistic_player_kills_alltime%</yellow></aqua>"
+```
+
+---
+
+## 💡 Consejos de Diseño para Tops
+
+1. **Uso de Formato Condicional:** Si una posición no tiene aún un jugador registrado (ej. el puesto #5 en un servidor nuevo), ajLeaderboards mostrará `---` o el texto configurado en `messages.yml`.
+2. **Espaciado Visual:** Coloca una línea vacía `""` entre el encabezado y la primera posición para mejorar la legibilidad.
+3. **Tu Posición al Pie:** Incluir `%ajlb_position_<board>_<tipo>%` motiva a los jugadores a competir para escalar en el ranking.
